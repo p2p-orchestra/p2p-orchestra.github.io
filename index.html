@@ -238,7 +238,9 @@
                     playing = false;
                     audios.forEach(e=> {
                         e.pause();
+                        if (String(e.id) !== String(current)) {
                         e.currentTime = 0;
+                        }
                     });
                     audios[current].pause();
                 
