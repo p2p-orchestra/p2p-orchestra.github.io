@@ -1,0 +1,261 @@
+<html>
+    <head>
+        <style>
+            #musicPlayerDiv {
+                width: 100%;
+                height: 100%;
+                background: darkgrey;
+                padding-top: 1px;
+                border-radius: 10px;
+            }
+
+            #musicPlayerDiv * {
+                font-family: Arial, sans-serif;
+            }
+
+            #songList {
+                background: grey;
+                width: 100%;
+                height: 100%;
+                margin-left:10px;
+                /* margin-right: 10px; */
+                border-radius: 10px;
+                overflow: scroll;
+            }
+            .song {
+                margin:15px;
+            }
+
+            #menuBar {
+                background: grey;
+                width: 100px;
+                height: 100%;
+                margin-left:10px;
+                margin-right: 10px;
+                border-radius: 10px;
+            }
+            
+            hr {
+                border-color: black;
+                margin-left:10px;
+                margin-right: 10px;
+            }
+            center {
+                margin-left:10px;
+                margin-right: 10px;
+                }
+
+            #songBar {
+                width: 98.75%;
+                height: 100px;
+                background: grey;
+                position: fixed;
+                bottom:8px;
+                /* padding: 5px; */
+                -webkit-border-bottom-right-radius: 10px;
+                -webkit-border-bottom-left-radius: 10px;
+                -moz-border-radius-bottomright: 10px;
+                -moz-border-radius-bottomleft: 10px;
+                border-bottom-right-radius: 10px;
+                border-bottom-left-radius: 10px;
+                
+            }
+
+            .flex-container {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                justify-content: normal;
+                align-items: stretch;
+                align-content: normal;
+                height:70%;
+                width: 70%;
+            }
+
+            .flex-items:nth-child(1) {
+                display: block;
+                flex-grow: 0;
+                flex-shrink: 1;
+                flex-basis: auto;
+                align-self: auto;
+                order: 0;
+                
+            }
+
+
+            .flex-items:nth-child(2) {
+                display: block;
+                flex-grow: 0;
+                flex-shrink: 1;
+                flex-basis: auto;
+                align-self: auto;
+                order: 0;
+                width: 100%;
+            }
+
+            .song {
+                border: 1px solid grey;
+                background:grey;
+                border-radius: 5px;
+                width: 95%;
+                
+            }
+            .song:hover {
+                background:lightgrey;
+                padding: 5px;
+            }
+            .song:hover > button {
+                background:grey;
+                padding: 5px;
+            }
+            .song:hover > img {
+                background:lightgrey;
+                padding: 5px;
+            }
+            img {
+                background:lightgrey;
+                padding: 0px;
+                border-radius: 10px;
+            }
+            button {
+                border: none;
+                background:lightgrey;
+                border-radius: 10px;
+                width: 40px;
+                height: 40px;
+            }
+            * [id='0'] {
+                margin-left: 600px;
+
+            }
+            * [id='1'] {
+                margin-left: 555px;
+
+            }
+            * [id='2'] {
+                margin-left: 640px;
+
+            }
+            * [id='3'] {
+                margin-left: 670px;
+
+            }
+            #currentPlaying {
+                font-size: 30px;
+                margin: 10px;
+            }
+            progress {
+                width: 400px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id='musicPlayerDiv'>
+            <center><h1>Orchestra Project - Music Player</h1></center>
+            <hr><br>
+
+            <div class="flex-container">
+               <div class="flex-items"><div id="menuBar">
+                    <img src="house.svg" style='background:lightgrey; margin:10px; padding: 10px' width="60px">
+                    <img src="search.svg" style='background:lightgrey; margin:10px; padding: 10px' width="60px">
+                    <img src="people.svg" style='background:lightgrey; margin:10px; padding: 10px' width="60px">
+                    <img src="thumbs.svg" style='background:lightgrey; margin:10px; padding: 10px' width="60px" onclick='thumbs();' id="thumbs">
+
+                    <img src="settings.svg" style='background:lightgrey; margin:10px; padding: 10px' width="60px">
+
+
+               </div></div>
+               <div class="flex-items"><div id='songList'>
+                   <div class="song">Mission Impossible <button id="0" onclick='play(0);'>►</button></div>
+                   <!-- &#10073;&#10073; -->
+                   <hr>
+                   <div class="song">Twinkle Twinkle Little Star<button id="1" onclick='play(1);'>►</button></div>
+                   <!-- &#10073;&#10073; -->
+                   <hr>
+                   <div class="song">Indiana Jones<button id="2" onclick='play(2);'>►</button></div>
+                   <!-- &#10073;&#10073; -->
+                   <hr>
+                   <div class="song">Star Wars<button id="3" onclick='play(3);'>►</button></div>
+                   <!-- &#10073;&#10073; -->
+                   
+               </div></div>
+            </div>
+            
+            
+            <div id="songBar">
+                
+                <center><br><span id='currentPlaying'>Select a Song</span><br><br><progress id="progress" value="0" max="100"></progress></center>
+                
+            </div>
+        </div>
+        <script>
+            var names = [
+                "Mission Impossible",
+                "Twinkle Twinkle Little Star",
+                "Indiana Jones",
+                "Star Wars"
+            ];
+            var audios = [
+                new Audio('5.mp3'),
+                new Audio('1.mp3'),
+                new Audio('2.mp3'),
+                new Audio('3.mp3')
+            ];
+            var playing = false;
+            var current = 0;
+            function play(n) {
+                document.querySelectorAll('button').forEach(e=> {
+                    e.innerHTML = '►'; 
+                });
+                current = n;
+                document.getElementById(String(current)).innerHTML = names[current];
+                if (!playing) {
+                    document.getElementById(String(n)).innerHTML="&#10073;&#10073;";
+                    playing = true;
+                    audios.forEach(e=> {e.pause()});
+                    audios[current].play();
+                    audios[current].loop = true;
+                    document.getElementById('currentPlaying').innerHTML = names[current];
+                } else {
+                    document.getElementById(String(n)).innerHTML="►";
+                    playing = false;
+                    audios.forEach(e=> {
+                        e.pause();
+                        e.currentTime = 0;
+                    });
+                    audios[current].pause();
+                
+                }
+                
+                
+            }
+
+            if ((window.localStorage.thumbs === undefined) || (window.localStorage.thumbs === false)) {
+                window.localStorage.thumbs = false;  
+                document.getElementById('thumbs').style.background='lightgrey';
+            } else {
+                window.localStorage.thumbs = true;  
+                document.getElementById('thumbs').style.background='grey';
+            }
+
+            
+            
+            function thumbs() {
+                if ((window.localStorage.thumbs === undefined) || (window.localStorage.thumbs === false)) {
+                    window.localStorage.thumbs = true;
+                    document.getElementById('thumbs').style.background='lightgrey';
+                } else {
+                    window.localStorage.thumbs = false;
+                    document.getElementById('thumbs').style.background='grey';
+                }
+            }
+
+        
+
+            window.setInterval(function(){
+                //(audios[current].currentTime);
+                document.getElementById('progress').value = String(100*(audios[current].currentTime/audios[current].duration));
+            }, 100);
+        </script>
+    </body>
+</html>
